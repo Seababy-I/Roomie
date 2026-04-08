@@ -9,7 +9,7 @@ const PostListing = () => {
     rent: '',
     location: '',
     flatType: '1BHK',
-    genderPreference: 'Any',
+    genderPreference: 'Male',
     moveInDate: '',
     description: '',
     amenities: '',
@@ -142,7 +142,7 @@ const PostListing = () => {
           <div className="space-y-4">
             <label className="text-sm font-bold text-text-secondary flex items-center gap-2 uppercase tracking-widest"><User className="w-4 h-4" /> Gender Preference</label>
             <select name="genderPreference" value={formData.genderPreference} onChange={handleChange} className="w-full bg-white/5 border border-white/5 rounded-2xl p-4 text-text-primary focus:border-accent-cyan outline-none appearance-none cursor-pointer">
-              {['Any', 'Male', 'Female'].map(gender => <option key={gender} className="bg-card-dark">{gender}</option>)}
+              {['Male', 'Female'].map(gender => <option key={gender} className="bg-card-dark">{gender}</option>)}
             </select>
           </div>
         </div>
