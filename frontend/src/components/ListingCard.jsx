@@ -40,7 +40,12 @@ const ListingCard = ({ listing }) => {
             
             <div className="p-8 space-y-6">
               <div className="space-y-1">
-                <h3 className="text-2xl font-black tracking-tight leading-tight group-hover:text-accent-cyan transition-colors line-clamp-1">{listing.title}</h3>
+                <h3
+                  className="text-[1.7rem] font-bold tracking-normal leading-[1.15] group-hover:text-accent-cyan transition-colors line-clamp-1"
+                  style={{ fontFamily: "'DM Sans', system-ui, sans-serif" }}
+                >
+                  {listing.title}
+                </h3>
                 <div className="flex items-center gap-2 text-text-secondary text-sm">
                     <MapPin className="w-4 h-4 text-accent-cyan/60" /> <span>{listing.location}</span>
                 </div>

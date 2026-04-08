@@ -306,7 +306,12 @@ const Home = () => {
         <section className="space-y-16 px-6">
           <div className="flex flex-col md:flex-row items-end justify-between gap-10">
             <div className="space-y-3">
-              <h2 className="text-5xl font-black tracking-tight leading-none">Curated Rooms</h2>
+              <h2
+                className="text-5xl font-extrabold tracking-normal leading-[1.05]"
+                style={{ fontFamily: "'DM Sans', system-ui, sans-serif" }}
+              >
+                Curated Rooms
+              </h2>
               <div className="h-1.5 w-24 bg-accent-cyan rounded-full" />
             </div>
           </div>

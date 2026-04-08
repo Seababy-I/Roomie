@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Search, User, PlusCircle, LogIn, LogOut, Menu, X, Sparkles } from 'lucide-react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -53,15 +53,34 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
+  const [navVisible, setNavVisible] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const lastScrollY = useRef(0);
   const token = localStorage.getItem('token');
   const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      setScrolled(currentScrollY > 20);
+
+      if (mobileMenuOpen) {
+        setNavVisible(true);
+      } else if (currentScrollY <= 140) {
+        setNavVisible(true);
+      } else if (currentScrollY - lastScrollY.current > 8) {
+        setNavVisible(false);
+      } else {
+        setNavVisible(true);
+      }
+
+      lastScrollY.current = currentScrollY;
+    };
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [mobileMenuOpen]);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -91,7 +110,12 @@ const Navbar = () => {
   };
 
   return (
-    <div className="fixed top-6 left-0 right-0 z-[100] flex justify-center px-6">
+    <motion.div
+      className="fixed top-6 left-0 right-0 z-[100] flex justify-center px-6"
+      initial={{ y: 0, opacity: 1 }}
+      animate={{ y: navVisible ? 0 : -120, opacity: navVisible ? 1 : 0 }}
+      transition={{ duration: 0.3, ease: 'easeInOut' }}
+    >
       <motion.nav
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -209,7 +233,7 @@ const Navbar = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 };
 
