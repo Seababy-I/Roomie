@@ -1,10 +1,67 @@
-import React, { useState, useEffect } from 'react';
+// UPDATED: frontend/src/pages/Home.jsx
+
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, SlidersHorizontal, X, IndianRupee, MapPin, User, Bed, RotateCcw, ArrowRight, Sparkles } from 'lucide-react';
 import ListingCard from '../components/ListingCard';
 import axios from 'axios';
 
 const FilterDrawer = ({ isOpen, onClose, filters, setFilters, onApply, onClear }) => {
+  // MODIFIED: autocomplete state + static suggestions
+  const locationSuggestions = ['TC', 'Tiger Circle', 'MIT Gate', 'End Point', 'Bus Stand'];
+  const [locationInput, setLocationInput] = useState(filters.location || '');
+  const [filteredSuggestions, setFilteredSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const locationRef = useRef(null);
+
+  // MODIFIED: keep local input synced with parent filter state
+  useEffect(() => {
+    setLocationInput(filters.location || '');
+  }, [filters.location]);
+
+  // MODIFIED: dynamic case-insensitive filtering
+  useEffect(() => {
+    const query = locationInput.trim().toLowerCase();
+    if (!query) {
+      setFilteredSuggestions(locationSuggestions);
+      setShowSuggestions(false);
+      return;
+    }
+
+    const matches = locationSuggestions.filter((location) =>
+      location.toLowerCase().includes(query)
+    );
+
+    setFilteredSuggestions(matches);
+    setShowSuggestions(matches.length > 0);
+  }, [locationInput]);
+
+  // MODIFIED: close dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (locationRef.current && !locationRef.current.contains(event.target)) {
+        setShowSuggestions(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // MODIFIED: allow free text
+  const handleLocationChange = (e) => {
+    const value = e.target.value;
+    setLocationInput(value);
+    setFilters({ ...filters, location: value });
+  };
+
+  // MODIFIED: select suggestion and close dropdown
+  const handleLocationSelect = (value) => {
+    setLocationInput(value);
+    setFilters({ ...filters, location: value });
+    setShowSuggestions(false);
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -53,11 +110,34 @@ const FilterDrawer = ({ isOpen, onClose, filters, setFilters, onApply, onClear }
                 <label className="text-xs font-bold text-text-secondary uppercase tracking-widest flex items-center gap-2">
                   <MapPin className="w-3.5 h-3.5" /> Preferred Location
                 </label>
-                <input
-                  type="text" placeholder="e.g. TC, End Point"
-                  value={filters.location} onChange={(e) => setFilters({ ...filters, location: e.target.value })}
-                  className="w-full bg-bg-dark border border-white/5 rounded-xl p-3 text-sm focus:border-accent-cyan outline-none transition-all focus:ring-4 focus:ring-accent-cyan/10"
-                />
+
+                {/* MODIFIED: autocomplete input with free text support */}
+                <div ref={locationRef} className="relative">
+                  <input
+                    type="text"
+                    placeholder="e.g. TC, End Point"
+                    value={locationInput}
+                    onChange={handleLocationChange}
+                    onFocus={() => setShowSuggestions(filteredSuggestions.length > 0)}
+                    className="w-full bg-bg-dark border border-white/5 rounded-xl p-3 text-sm focus:border-accent-cyan outline-none transition-all focus:ring-4 focus:ring-accent-cyan/10"
+                  />
+
+                  {showSuggestions && filteredSuggestions.length > 0 && (
+                    <div className="absolute top-[calc(100%+0.5rem)] left-0 right-0 z-20 overflow-hidden rounded-2xl border border-white/8 bg-card-dark/95 backdrop-blur-xl shadow-2xl">
+                      {filteredSuggestions.map((location) => (
+                        <button
+                          key={location}
+                          type="button"
+                          onMouseDown={(e) => e.preventDefault()}
+                          onClick={() => handleLocationSelect(location)}
+                          className="w-full px-4 py-3 text-left text-sm text-text-primary transition-colors hover:bg-white/5"
+                        >
+                          {location}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div className="space-y-4">
@@ -81,7 +161,7 @@ const FilterDrawer = ({ isOpen, onClose, filters, setFilters, onApply, onClear }
                 <label className="text-xs font-bold text-text-secondary uppercase tracking-widest flex items-center gap-2">
                   <User className="w-3.5 h-3.5" /> Gender Preference
                 </label>
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-2 gap-3">
                   {['Male', 'Female'].map(g => (
                     <button
                       key={g}
@@ -127,11 +207,10 @@ const Home = () => {
     minRent: '',
     maxRent: '',
     location: '',
-    genderPreference: 'Any',
+    genderPreference: '',
     flatType: ''
   });
 
-  // Debounced search logic
   useEffect(() => {
     const timer = setTimeout(() => {
       fetchListings({ ...filters, location: activeSearch });
@@ -147,7 +226,7 @@ const Home = () => {
       if (customFilters.minRent) params.append('minRent', customFilters.minRent);
       if (customFilters.maxRent) params.append('maxRent', customFilters.maxRent);
       if (customFilters.location) params.append('location', customFilters.location);
-      if (customFilters.genderPreference && customFilters.genderPreference !== 'Any') params.append('genderPreference', customFilters.genderPreference);
+      if (customFilters.genderPreference) params.append('genderPreference', customFilters.genderPreference);
       if (customFilters.flatType) params.append('flatType', customFilters.flatType);
 
       const { data } = await axios.get(`${apiBase}/listings?${params.toString()}`);
@@ -165,7 +244,7 @@ const Home = () => {
   };
 
   const handleClearFilters = () => {
-    const cleared = { minRent: '', maxRent: '', location: '', genderPreference: 'Any', flatType: '' };
+    const cleared = { minRent: '', maxRent: '', location: '', genderPreference: '', flatType: '' };
     setFilters(cleared);
     fetchListings(cleared);
     setIsFilterOpen(false);
@@ -183,8 +262,6 @@ const Home = () => {
       />
 
       <div className="relative z-10 space-y-24 pb-20 pt-8">
-
-        {/* HERO SECTION */}
         <header className="pt-6 pb-10 text-center space-y-12 max-w-5xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -192,7 +269,6 @@ const Home = () => {
             transition={{ duration: 0.8 }}
             className="space-y-8"
           >
-
             <h1 className="text-5xl md:text-7xl font-black tracking-tighter leading-[0.9] select-none font-display">
               Find your <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan via-indigo-400 to-accent-cyan bg-[length:200%_auto] animate-gradient-slow drop-shadow-[0_0_30px_rgba(99,102,241,0.3)]">Perfect Roomie. </span>
@@ -227,19 +303,11 @@ const Home = () => {
           </motion.div>
         </header>
 
-        {/* FEED SECTION */}
         <section className="space-y-16 px-6">
           <div className="flex flex-col md:flex-row items-end justify-between gap-10">
             <div className="space-y-3">
               <h2 className="text-5xl font-black tracking-tight leading-none">Curated Rooms</h2>
               <div className="h-1.5 w-24 bg-accent-cyan rounded-full" />
-            </div>
-            <div className="bg-card-dark/80 backdrop-blur-md px-8 py-4 rounded-[2rem] text-[10px] font-black text-text-secondary border border-white/5 flex items-center gap-4 shadow-xl">
-              <span className="relative flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-cyan opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-accent-cyan"></span>
-              </span>
-              {listings.length} INSTANT RESULTS
             </div>
           </div>
 

@@ -90,7 +90,7 @@ const PostListing = () => {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         onSubmit={handleSubmit}
-        className="bg-card-dark rounded-3xl p-10 border border-white/5 space-y-10 shadow-2xl"
+        className="bg-card-dark/82 backdrop-blur-xl rounded-3xl p-10 border border-white/8 space-y-10 shadow-2xl"
       >
         {/* Core Details Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -198,7 +198,7 @@ const PostListing = () => {
         <button
           disabled={loading}
           type="submit"
-          className="w-full bg-accent-cyan hover:bg-indigo-700 disabled:bg-gray-700 text-white py-5 rounded-2xl font-extrabold text-lg transition-all shadow-xl shadow-accent-cyan/20 flex justify-center items-center gap-3"
+          className="w-full py-5 rounded-2xl font-extrabold text-lg transition-all flex justify-center items-center gap-3 text-white border border-white/12 bg-accent-cyan/18 hover:bg-accent-cyan/24 backdrop-blur-2xl shadow-lg shadow-black/20 disabled:bg-gray-700/40 disabled:border-white/5 disabled:text-white/60"
         >
           {loading ? 'Posting...' : <><PlusCircle className="w-6 h-6" /> Publish Listing</>}
         </button>
