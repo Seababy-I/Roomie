@@ -1,0 +1,199 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg-dark: #0A0A0F;
+  --color-card-dark: #13131A;
+  --color-accent-cyan: #00E5C0;
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #A1A1AA;
+  --radius-xl: 1rem;
+  --font-display: 'Syne', sans-serif;
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+}
+
+:root {
+  background-color: #0A0A0F;
+  color: #FFFFFF;
+  font-family: 'DM Sans', system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* Apply Syne to all headings automatically */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Syne', sans-serif;
+}
+
+.font-display {
+  font-family: 'Syne', sans-serif;
+}
+
+/* ─── Animated Background Layer ─── */
+
+.bg-animated {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: #0A0A0F;
+  pointer-events: none;
+}
+
+.bg-animated::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.035;
+  z-index: 10;
+}
+
+.bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(99, 102, 241, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99, 102, 241, 0.04) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+}
+
+.bg-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  will-change: transform, opacity;
+}
+
+.bg-orb-1 {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.18) 0%, transparent 70%);
+  top: -200px;
+  left: -150px;
+  animation: orb-float-1 22s ease-in-out infinite;
+}
+
+.bg-orb-2 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, transparent 70%);
+  bottom: -100px;
+  right: -150px;
+  animation: orb-float-2 28s ease-in-out infinite;
+}
+
+.bg-orb-3 {
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+  top: 40%;
+  left: 60%;
+  animation: orb-float-3 18s ease-in-out infinite;
+}
+
+.bg-orb-4 {
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.08) 0%, transparent 70%);
+  top: 20%;
+  right: 20%;
+  animation: orb-float-4 32s ease-in-out infinite;
+}
+
+.bg-beam {
+  position: absolute;
+  width: 1px;
+  top: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, transparent, rgba(99, 102, 241, 0.15), transparent);
+  filter: blur(1px);
+}
+
+.bg-beam-1 {
+  left: 25%;
+  animation: beam-sweep 9s ease-in-out infinite;
+}
+
+.bg-beam-2 {
+  left: 70%;
+  animation: beam-sweep 13s ease-in-out infinite;
+  animation-delay: -4s;
+  opacity: 0.6;
+}
+
+.bg-scanline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(99, 102, 241, 0.12), rgba(139, 92, 246, 0.12), transparent);
+  animation: scan-y 12s ease-in-out infinite;
+  filter: blur(0.5px);
+}
+
+.bg-particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: rgba(99, 102, 241, 0.6);
+  animation: particle-drift linear infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes orb-float-1 {
+  0%   { transform: translate(0, 0) scale(1); }
+  25%  { transform: translate(80px, 60px) scale(1.1); }
+  50%  { transform: translate(40px, 120px) scale(0.95); }
+  75%  { transform: translate(-40px, 60px) scale(1.05); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+@keyframes orb-float-2 {
+  0%   { transform: translate(0, 0) scale(1); }
+  33%  { transform: translate(-70px, -80px) scale(1.08); }
+  66%  { transform: translate(-30px, -140px) scale(0.92); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+@keyframes orb-float-3 {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(-60px, -90px) scale(1.15); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+@keyframes orb-float-4 {
+  0%   { transform: translate(0, 0); opacity: 0.5; }
+  40%  { transform: translate(50px, 70px); opacity: 0.9; }
+  100% { transform: translate(0, 0); opacity: 0.5; }
+}
+
+@keyframes beam-sweep {
+  0%, 100% { opacity: 0; transform: scaleY(0.3) translateY(-30%); }
+  30%       { opacity: 1; transform: scaleY(1) translateY(0); }
+  70%       { opacity: 0.6; transform: scaleY(0.8) translateY(10%); }
+}
+
+@keyframes scan-y {
+  0%   { top: -2px; opacity: 0; }
+  5%   { opacity: 1; }
+  95%  { opacity: 0.4; }
+  100% { top: 100%; opacity: 0; }
+}
+
+@keyframes particle-drift {
+  0%   { transform: translateY(0) translateX(0); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 0.6; }
+  100% { transform: translateY(-100vh) translateX(var(--drift-x, 20px)); opacity: 0; }
+}
+
+.app-content {
+  position: relative;
+  z-index: 1;
+}
