@@ -62,7 +62,7 @@ const getListings = async (req, res) => {
             .sort({ createdAt: -1 })
             .limit(pageSize)
             .skip(pageSize * (pageNum - 1))
-            .populate('userId', 'name email');
+            .populate('userId', 'name email phone');
 
         res.json({
             listings,
@@ -81,7 +81,7 @@ const getListings = async (req, res) => {
 const getListingById = async (req, res) => {
     try {
         const listing = await Listing.findById(req.params.id)
-            .populate('userId', 'name email')
+            .populate('userId', 'name email phone')
             .populate('interestedUsers', 'name email');
 
         if (listing) {
