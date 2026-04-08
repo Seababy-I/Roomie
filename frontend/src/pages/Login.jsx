@@ -10,18 +10,26 @@ const Login = () => {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
+    // Production backend base URL
+    const API_BASE_URL = 'https://roomie-m9ps.onrender.com/api';
+
     const handleGoogleSuccess = async (credentialResponse) => {
         setLoading(true);
         setError('');
         try {
-            const { data } = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/auth/google`, {
+            // Send POST request with tokenId as specified by backend requirements
+            const { data } = await axios.post(`${API_BASE_URL}/auth/google`, {
                 tokenId: credentialResponse.credential
             });
 
+            // Store authentication data
             localStorage.setItem('token', data.token);
             localStorage.setItem('userInfo', JSON.stringify(data));
+            
+            // Redirect to profile/dashboard
             navigate('/profile');
         } catch (err) {
+            console.error('Login Error:', err);
             setError(err.response?.data?.message || 'Access denied. Please try again.');
         } finally {
             setLoading(false);

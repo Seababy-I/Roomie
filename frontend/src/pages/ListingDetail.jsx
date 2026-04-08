@@ -22,7 +22,8 @@ const ListingDetail = () => {
 
   const fetchListing = async () => {
     try {
-      const { data } = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/listings/${id}`);
+      const apiBase = 'https://roomie-m9ps.onrender.com/api';
+      const { data } = await axios.get(`${apiBase}/listings/${id}`);
       setListing(data);
 
       const ownerId = data.userId._id || data.userId;
@@ -46,8 +47,9 @@ const ListingDetail = () => {
 
   const fetchInterests = async () => {
     try {
+      const apiBase = 'https://roomie-m9ps.onrender.com/api';
       const token = localStorage.getItem('token');
-      const { data } = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/interests/${id}`, {
+      const { data } = await axios.get(`${apiBase}/interests/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setInterests(data);
@@ -58,8 +60,9 @@ const ListingDetail = () => {
 
   const handleStatusUpdate = async (interestId, newStatus) => {
     try {
+      const apiBase = 'https://roomie-m9ps.onrender.com/api';
       const token = localStorage.getItem('token');
-      await axios.patch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/interests/${interestId}`,
+      await axios.patch(`${apiBase}/interests/${interestId}`,
         { status: newStatus },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -71,8 +74,9 @@ const ListingDetail = () => {
 
   const expressInterest = async () => {
     try {
+      const apiBase = 'https://roomie-m9ps.onrender.com/api';
       const token = localStorage.getItem('token');
-      await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/interests/${id}`, {}, {
+      await axios.post(`${apiBase}/interests/${id}`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
       alert('Interest expressed!');

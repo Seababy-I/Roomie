@@ -142,7 +142,7 @@ const Home = () => {
   const fetchListings = async (customFilters = filters) => {
     setLoading(true);
     try {
-      const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      const apiBase = 'https://roomie-m9ps.onrender.com/api';
       const params = new URLSearchParams();
       if (customFilters.minRent) params.append('minRent', customFilters.minRent);
       if (customFilters.maxRent) params.append('maxRent', customFilters.maxRent);
