@@ -25,8 +25,8 @@ const ListingCard = ({ listing }) => {
           className="w-full"
         >
           {/* Active Card Content */}
-          <div className="relative overflow-hidden w-full">
-            <div className="relative h-64 w-full overflow-hidden">
+          <div className="relative overflow-hidden w-full rounded-[2.5rem]">
+            <div className="relative h-64 w-full overflow-hidden rounded-t-[2.5rem]">
               <img 
                 src={listing.images[0] || 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=2671&auto=format&fit=crop'} 
                 alt={listing.title} 

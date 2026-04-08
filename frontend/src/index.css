@@ -7,7 +7,8 @@
   --color-text-primary: #FFFFFF;
   --color-text-secondary: #A1A1AA;
   --radius-xl: 1rem;
-  --font-display: 'Syne', sans-serif;
+  --font-display: 'Instrument Serif', serif;
+--font-mono: 'Geist Mono', monospace;
   --font-sans: 'DM Sans', system-ui, sans-serif;
 }
 
@@ -25,7 +26,7 @@ body {
 
 /* Apply Syne to all headings automatically */
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Instrument Serif', serif;
 }
 
 .font-display {

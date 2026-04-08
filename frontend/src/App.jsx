@@ -58,6 +58,13 @@ function App() {
             <Route path="/listing/:id" element={<ListingDetail />} />
             <Route path="/profile" element={<Profile />} />
           </Routes>
+
+          {/* Footer */}
+          <footer className="py-20 border-t border-white/5 text-center mt-12">
+            <p className="text-text-secondary text-xs font-black uppercase tracking-[0.3em] opacity-50 hover:opacity-100 transition-opacity duration-500">
+              Made with ❤️ by <span className="text-accent-cyan">Priyali</span>
+            </p>
+          </footer>
         </div>
       </div>
     </div>

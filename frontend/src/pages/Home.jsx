@@ -82,7 +82,7 @@ const FilterDrawer = ({ isOpen, onClose, filters, setFilters, onApply, onClear }
                   <User className="w-3.5 h-3.5" /> Gender Preference
                 </label>
                 <div className="grid grid-cols-3 gap-3">
-                  {['Male', 'Female', 'Any'].map(g => (
+                  {['Male', 'Female'].map(g => (
                     <button
                       key={g}
                       onClick={() => setFilters({ ...filters, genderPreference: g })}
