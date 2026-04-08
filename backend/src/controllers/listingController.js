@@ -1,10 +1,11 @@
 const Listing = require('../models/Listing');
+const { getApartmentImage } = require('../services/placePhotoService');
 
 // @desc    Create a new listing
 // @route   POST /api/listings
 // @access  Private
 const createListing = async (req, res) => {
-    const { 
+    const {
         title, rent, location, flatType, genderPreference, 
         moveInDate, amenities, description, images, compatibilityTags 
     } = req.body;
@@ -16,10 +17,23 @@ const createListing = async (req, res) => {
     }
 
     try {
+        let listingImages = Array.isArray(images) ? images.filter(Boolean) : [];
+
+        if (listingImages.length === 0) {
+            try {
+                const autoImage = await getApartmentImage(title, location);
+                if (autoImage) {
+                    listingImages = [autoImage];
+                }
+            } catch (imageError) {
+                console.warn('Apartment image lookup failed:', imageError.message);
+            }
+        }
+
         const listing = await Listing.create({
             userId: req.user._id,
             title, rent, location, flatType, genderPreference,
-            moveInDate, amenities, description, images, compatibilityTags
+            moveInDate, amenities, description, images: listingImages, compatibilityTags
         });
 
         if (listing) {

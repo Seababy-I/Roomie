@@ -269,7 +269,7 @@ const Home = () => {
             transition={{ duration: 0.8 }}
             className="space-y-8"
           >
-            <h1 className="text-5xl md:text-7xl font-black tracking-tighter leading-[0.9] select-none font-display">
+            <h1 className="text-5xl md:text-7xl font-black tracking-tighter leading-[1] md:leading-[0.98] select-none font-display">
               Find your <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan via-indigo-400 to-accent-cyan bg-[length:200%_auto] animate-gradient-slow drop-shadow-[0_0_30px_rgba(99,102,241,0.3)]">Perfect Roomie. </span>
             </h1>

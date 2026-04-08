@@ -89,6 +89,9 @@ const PostListing = () => {
           Post a New Listing
         </h1>
         <p className="text-text-secondary">Fill in the details to find your next great roommate.</p>
+        <p className="text-sm text-text-secondary/80 mt-3">
+          Use the apartment name in the title and the nearby area in location so we can auto-pick a matching building photo.
+        </p>
       </div>
 
       <motion.form
@@ -103,7 +106,7 @@ const PostListing = () => {
             <label className="text-sm font-bold text-text-secondary flex items-center gap-2 uppercase tracking-widest"><FileText className="w-4 h-4" /> Listing Title</label>
             <input
               name="title" required value={formData.title} onChange={handleChange}
-              placeholder="e.g. Spacious 2BHK near TC"
+              placeholder="e.g. Royal Embassy, Mandavi Paradise"
               className="w-full bg-white/5 border border-white/5 rounded-2xl p-4 text-text-primary focus:border-accent-cyan outline-none transition-all"
             />
           </div>
@@ -121,7 +124,7 @@ const PostListing = () => {
             <label className="text-sm font-bold text-text-secondary flex items-center gap-2 uppercase tracking-widest"><MapPin className="w-4 h-4" /> Location</label>
             <input
               name="location" required value={formData.location} onChange={handleChange}
-              placeholder="e.g. Tiger Circle, Manipal"
+              placeholder="e.g. Tiger Circle, MIT Gate, End Point"
               className="w-full bg-white/5 border border-white/5 rounded-2xl p-4 text-text-primary focus:border-accent-cyan outline-none transition-all"
             />
           </div>
