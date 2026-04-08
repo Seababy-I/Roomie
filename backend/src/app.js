@@ -7,18 +7,33 @@ const { apiLimiter } = require('./middleware/rateLimiter');
 
 const app = express();
 
-// Security & CORS Middleware
-const corsOptions = {
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
-    credentials: true,
-};
+// ✅ FIXED CORS (supports all Vercel deployments)
+app.use(cors({
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like Postman)
+    if (!origin) return callback(null, true);
 
+    // Allow all Vercel frontend URLs
+    if (origin.includes('vercel.app')) {
+      return callback(null, true);
+    }
+
+    // Optional: allow localhost for development
+    if (origin.includes('localhost')) {
+      return callback(null, true);
+    }
+
+    return callback(new Error('Not allowed by CORS'));
+  },
+  credentials: true,
+}));
+
+// Security + Logging
 app.use(helmet());
-app.use(cors(corsOptions));
 app.use(morgan('dev'));
 app.use(express.json());
 
-// Application-wide Rate Limiting
+// Rate Limiting
 app.use('/api', apiLimiter);
 
 // Routes
@@ -32,10 +47,10 @@ app.use('/api/interests', interestRoutes);
 
 // Health Check
 app.get('/', (req, res) => {
-    res.json({ message: 'Welcome to Roomie API - Institutional Backend' });
+  res.json({ message: 'Welcome to Roomie API 🚀' });
 });
 
-// Middleware for 404 and Global Error Handling
+// Error Handling
 app.use(notFound);
 app.use(errorHandler);
 
