@@ -74,7 +74,8 @@ This todo list is broken down into steps based on the PRD, Design Document, and 
 
 
 ## 🚀 7. Deployment (Tech Stack)
-- [x] Create Deployment Guide (Vercel, Render, Atlas)
+- [x] Create Deployment Guide (Vercel, Render, Atlas) -> [See DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)
+- [x] Configure CORS & Routing for production
 - [ ] Deploy Backend to Render/Railway
 - [ ] Deploy Frontend to Vercel/Netlify
 - [ ] Final Verification & Testing
