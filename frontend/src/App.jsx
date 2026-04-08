@@ -42,8 +42,9 @@ function App() {
           </Routes>
 
           {/* Footer */}
-          <footer className="py-20 border-t border-white/5 text-center mt-12">
-            <p className="text-text-secondary text-xs font-black uppercase tracking-[0.3em] opacity-50 hover:opacity-100 transition-opacity duration-500">
+          <footer className="relative mt-6 h-10 text-center flex items-center justify-center">
+            <div className="absolute left-0 right-0 top-0 border-t border-white/5" />
+            <p className="m-0 pt-1 leading-none text-text-secondary text-xs font-black uppercase tracking-[0.3em] opacity-50 hover:opacity-100 transition-opacity duration-500">
               Made by <span className="text-accent-cyan">Priyali</span>
             </p>
           </footer>
