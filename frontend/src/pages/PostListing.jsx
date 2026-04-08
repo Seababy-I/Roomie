@@ -82,7 +82,12 @@ const PostListing = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-12">
       <div className="text-center">
-        <h1 className="text-4xl font-extrabold mb-3 tracking-tight">Post a New Listing</h1>
+        <h1
+          className="text-4xl font-extrabold mb-3 tracking-normal leading-[1.05]"
+          style={{ fontFamily: "'DM Sans', system-ui, sans-serif" }}
+        >
+          Post a New Listing
+        </h1>
         <p className="text-text-secondary">Fill in the details to find your next great roommate.</p>
       </div>
 

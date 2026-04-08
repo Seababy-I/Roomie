@@ -4,7 +4,23 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import BorderGlow from './BorderGlow';
 
+const fallbackImages = [
+  'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1600&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1484154218962-a197022b5858?q=80&w=1600&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1600&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=1600&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1600&auto=format&fit=crop&sat=-10',
+  'https://images.unsplash.com/photo-1460317442991-0ec209397118?q=80&w=1600&auto=format&fit=crop',
+];
+
 const ListingCard = ({ listing }) => {
+  const fallbackSeed = `${listing._id || ''}-${listing.title || ''}-${listing.location || ''}`;
+  const fallbackIndex = Array.from(fallbackSeed).reduce(
+    (sum, char) => sum + char.charCodeAt(0),
+    0
+  ) % fallbackImages.length;
+  const displayImage = listing.images?.[0] || fallbackImages[fallbackIndex];
+
   return (
     <Link to={`/listing/${listing._id}`}>
       <motion.div 
@@ -28,7 +44,7 @@ const ListingCard = ({ listing }) => {
           <div className="relative overflow-hidden w-full rounded-[2.5rem]">
             <div className="relative h-64 w-full overflow-hidden rounded-t-[2.5rem]">
               <img 
-                src={listing.images[0] || 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=2671&auto=format&fit=crop'} 
+                src={displayImage} 
                 alt={listing.title} 
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 loading="lazy"
