@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, User, PlusCircle, LogIn, LogOut, Menu, X, Sparkles } from 'lucide-react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -55,29 +55,18 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [navVisible, setNavVisible] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const lastScrollY = useRef(0);
   const token = localStorage.getItem('token');
-  const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
+      const isAtTop = currentScrollY <= 40;
 
       setScrolled(currentScrollY > 20);
-
-      if (mobileMenuOpen) {
-        setNavVisible(true);
-      } else if (currentScrollY <= 140) {
-        setNavVisible(true);
-      } else if (currentScrollY - lastScrollY.current > 8) {
-        setNavVisible(false);
-      } else {
-        setNavVisible(true);
-      }
-
-      lastScrollY.current = currentScrollY;
+      setNavVisible(mobileMenuOpen || isAtTop);
     };
 
+    handleScroll();
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [mobileMenuOpen]);
