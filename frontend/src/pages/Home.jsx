@@ -182,10 +182,10 @@ const Home = () => {
         onClear={handleClearFilters}
       />
 
-      <div className="relative z-10 space-y-24 pb-20 pt-30">
+      <div className="relative z-10 space-y-24 pb-20 pt-8">
 
         {/* HERO SECTION */}
-        <header className="pt-20 pb-10 text-center space-y-12 max-w-5xl mx-auto">
+        <header className="pt-6 pb-10 text-center space-y-12 max-w-5xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
